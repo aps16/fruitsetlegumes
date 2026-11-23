@@ -3,256 +3,305 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Les parties du corps</title>
+<title>Fruits et légumes</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fredoka:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&display=swap">
 <style>
-/* Layout: one large card centred, image on the front, word + sound on the back, controls below. */
+/* Layout: one big colour-coded card, tinted by the fruit or vegetable shown; two round arrows below. */
 :root {
-  --bg: #eef3f9;
+  --bg: #fff8ee;
   --card: #ffffff;
-  --ink: #14213d;
-  --muted: #5a6a85;
-  --line: #9fb0c9;
-  --shape: #dbe6f4;
-  --hl: #e4572e;
-  --hl-ink: #ffffff;
-  --btn: #14213d;
-  --btn-ink: #ffffff;
-  --btn-soft: #dde7f4;
+  --ink: #2b2140;
+  --muted: #7a6f8f;
+  --out: #3a2a4d;
+  --c: #ef476f;
+  --c-ink: #ffffff;
+  --arrow: #2b2140;
+  --arrow-ink: #ffffff;
   --focus: #1b6ef3;
-  --eye: #ffffff;
-  --lip: #f1a7a0;
-  --hair: #3b4a66;
-  --font-ui: "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-word: "Fredoka", "Atkinson Hyperlegible", system-ui, sans-serif;
+  --font: "Fredoka", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0d1627; --card: #172238; --ink: #eaf0fb; --muted: #9db0cf; --line: #5a6e92;
-    --shape: #2a3a5a; --hl: #ff7a59; --hl-ink: #1a0d08; --btn: #eaf0fb; --btn-ink: #0d1627;
-    --btn-soft: #24334f; --focus: #7db0ff; --eye: #eaf0fb; --lip: #c97b78; --hair: #9db0cf;
-    color-scheme: dark;
+    --bg: #1d1730; --card: #2a2145; --ink: #fdf3e4; --muted: #b3a8cc; --out: #14101f;
+    --arrow: #fdf3e4; --arrow-ink: #1d1730; --focus: #8bb8ff; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0d1627; --card: #172238; --ink: #eaf0fb; --muted: #9db0cf; --line: #5a6e92;
-  --shape: #2a3a5a; --hl: #ff7a59; --hl-ink: #1a0d08; --btn: #eaf0fb; --btn-ink: #0d1627;
-  --btn-soft: #24334f; --focus: #7db0ff; --eye: #eaf0fb; --lip: #c97b78; --hair: #9db0cf;
-  color-scheme: dark;
+  --bg: #1d1730; --card: #2a2145; --ink: #fdf3e4; --muted: #b3a8cc; --out: #14101f;
+  --arrow: #fdf3e4; --arrow-ink: #1d1730; --focus: #8bb8ff; color-scheme: dark;
 }
 * { box-sizing: border-box; }
+html, body { margin: 0; }
 body {
-  background: var(--bg); color: var(--ink); font-family: var(--font-ui);
-  font-size: 17px; line-height: 1.4; min-height: 100%;
-  padding-block: 20px 28px;
+  background: var(--bg);
+  background: color-mix(in srgb, var(--c) 16%, var(--bg));
+  color: var(--ink); font-family: var(--font); min-height: 100%;
+  padding-block: 18px 26px;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
+  transition: background-color .4s;
 }
-main { max-width: 440px; margin-inline: auto; display: flex; flex-direction: column; gap: 16px; }
-header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-h1 { font-family: var(--font-word); font-weight: 600; font-size: 1.6rem; margin: 0; text-wrap: balance; }
-.count { color: var(--muted); font-variant-numeric: tabular-nums; font-weight: 700; }
+main { max-width: 440px; margin-inline: auto; display: flex; flex-direction: column; gap: 18px; }
+.top { display: flex; align-items: center; gap: 12px; }
+.bar { flex: 1; height: 10px; border-radius: 99px; background: var(--card); overflow: hidden; }
+.bar i { display: block; height: 100%; width: 0; background: var(--c); border-radius: 99px; transition: width .35s, background-color .35s; }
+.count { font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; min-width: 3.6em; text-align: right; }
 
 .scene { perspective: 1200px; }
-.card {
-  position: relative; display: block; width: 100%; aspect-ratio: 5 / 6; padding: 0; border: 0;
-  background: none; cursor: pointer; font: inherit; color: inherit;
-}
-.card:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; border-radius: 24px; }
-.inner { position: absolute; inset: 0; transition: transform .55s cubic-bezier(.3,.7,.2,1); transform-style: preserve-3d; }
+.card { position: relative; display: block; width: 100%; aspect-ratio: 1 / 1.08; padding: 0; border: 0; background: none; cursor: pointer; font: inherit; color: inherit; -webkit-tap-highlight-color: transparent; }
+.card:focus-visible { outline: 4px solid var(--focus); outline-offset: 5px; border-radius: 36px; }
+.inner { position: absolute; inset: 0; transform-style: preserve-3d; transition: transform .6s cubic-bezier(.3,1.3,.5,1); }
 .card.flipped .inner { transform: rotateY(180deg); }
 .face {
-  position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
-  background: var(--card); border: 2px solid var(--line); border-radius: 24px;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 20px;
+  position: absolute; inset: 0; border-radius: 36px; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 22px;
+  box-shadow: 0 10px 0 color-mix(in srgb, var(--c) 55%, #000 0%);
 }
-.back { transform: rotateY(180deg); }
-.front svg { width: 100%; max-height: 82%; flex: 1; min-height: 0; }
-.hint { color: var(--muted); font-size: .95rem; }
-.word { font-family: var(--font-word); font-weight: 600; font-size: clamp(2.6rem, 14vw, 3.8rem); line-height: 1.05; text-align: center; overflow-wrap: anywhere; }
-.word .art { color: var(--muted); font-weight: 500; }
-.ipa { font-size: 1.5rem; color: var(--muted); letter-spacing: .02em; }
-.ipa[hidden] { display: none !important; }
-.sound { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 8px; }
-
-button.btn {
-  font: inherit; font-weight: 700; min-height: 52px; padding: 0 20px; border-radius: 14px; border: 0; cursor: pointer;
-  background: var(--btn); color: var(--btn-ink);
+.front { background: var(--card); background: color-mix(in srgb, var(--c) 22%, var(--card)); border: 6px solid var(--c); }
+.back { background: var(--c); color: var(--c-ink); transform: rotateY(180deg); border: 6px solid var(--c); }
+#pic { flex: 1; min-height: 0; width: 100%; display: flex; justify-content: center; }
+#pic svg { height: 100%; max-width: 100%; animation: pop .45s cubic-bezier(.3,1.5,.5,1); }
+@keyframes pop { from { transform: scale(.7) rotate(-6deg); opacity: 0; } to { transform: none; opacity: 1; } }
+.word { font-weight: 600; font-size: clamp(2.6rem, 14vw, 3.9rem); line-height: 1.05; text-align: center; overflow-wrap: anywhere; }
+.word .art { font-weight: 500; opacity: .75; }
+.say {
+  width: 76px; height: 76px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center;
+  background: var(--c-ink); color: var(--c);
 }
-button.btn.soft { background: var(--btn-soft); color: var(--ink); }
-button.btn:focus-visible, .chip:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
-.nav { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.nav .btn { width: 100%; }
-.opts { display: flex; flex-wrap: wrap; gap: 8px 18px; color: var(--muted); font-size: .95rem; }
-.opts label { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; min-height: 32px; }
-.opts input { width: 20px; height: 20px; accent-color: var(--hl); }
-.opts button { font: inherit; color: var(--ink); background: var(--btn-soft); border: 0; border-radius: 10px; padding: 0 12px; min-height: 36px; font-weight: 700; cursor: pointer; }
-.chips { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
-.chip {
-  font: inherit; font-weight: 700; font-variant-numeric: tabular-nums; min-height: 40px; border-radius: 10px;
-  border: 2px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; padding: 0;
+.say:focus-visible, .arrow:focus-visible { outline: 4px solid var(--focus); outline-offset: 3px; }
+.say svg { width: 38px; height: 38px; }
+.nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.arrow {
+  width: 76px; height: 76px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center;
+  background: var(--arrow); color: var(--arrow-ink); box-shadow: 0 6px 0 rgba(0,0,0,.18);
 }
-.chip[aria-current="true"] { background: var(--hl); border-color: var(--hl); color: var(--hl-ink); }
-.note { color: var(--muted); font-size: .9rem; margin: 0; }
-
-svg .base { fill: var(--shape); stroke: var(--line); stroke-width: 2; }
-svg .hl { fill: var(--hl); stroke: var(--hl); stroke-width: 2; }
-svg .ln { stroke: var(--line); stroke-width: 2; fill: none; stroke-linecap: round; }
-svg .eye { fill: var(--eye); stroke: var(--line); stroke-width: 2; }
-svg .eye.hl { fill: var(--hl); stroke: var(--hl); }
-svg .pupil { fill: var(--ink); }
-svg .hair { fill: var(--hair); stroke: var(--line); stroke-width: 2; }
-svg .hair.hl { fill: var(--hl); stroke: var(--hl); }
-svg .lip { fill: var(--lip); stroke: var(--line); stroke-width: 2; }
-svg .lip.hl { fill: var(--hl); stroke: var(--hl); }
-svg .tag { font-family: var(--font-ui); font-size: 13px; fill: var(--muted); }
-
-@media (max-width: 380px) {
-  .chips { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-}
+.arrow:active { transform: translateY(4px); box-shadow: 0 2px 0 rgba(0,0,0,.18); }
+.arrow svg { width: 36px; height: 36px; }
+.tip { color: var(--muted); font-weight: 500; text-align: center; flex: 1; min-width: 0; font-size: 1rem; }
+.o { stroke: var(--out); stroke-width: 5; stroke-linejoin: round; stroke-linecap: round; }
 @media (prefers-reduced-motion: reduce) {
-  .inner { transition: none; }
+  .inner, .bar i, body { transition: none; }
+  #pic svg { animation: none; }
 }
 </style>
 
 </head>
 <body>
 <main>
-  <header>
-    <h1>Les parties du corps</h1>
+  <div class="top">
+    <div class="bar" aria-hidden="true"><i id="fill"></i></div>
     <span class="count" id="count" aria-live="polite"></span>
-  </header>
+  </div>
 
   <div class="scene">
     <button class="card" id="card" type="button" aria-label="Retourner la carte">
       <div class="inner">
-        <div class="face front">
-          <div id="pic" role="img" aria-label="Image de la partie du corps"></div>
-          <div class="hint">Touche la carte pour voir le mot</div>
-        </div>
+        <div class="face front"><div id="pic" role="img" aria-label="Image à deviner"></div></div>
         <div class="face back">
           <div class="word" id="word"></div>
-          <div class="ipa" id="ipa"></div>
-          <div class="sound">
-            <span class="btn soft" role="button" tabindex="0" id="again" aria-label="Écouter le mot">Écouter</span>
-            <span class="btn soft" role="button" tabindex="0" id="slow" aria-label="Écouter le mot lentement">Plus lent</span>
-          </div>
+          <span class="say" id="say" role="button" tabindex="0" aria-label="Écouter le mot">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>
+          </span>
         </div>
       </div>
     </button>
   </div>
 
   <div class="nav">
-    <button class="btn soft" id="prev" type="button">Précédent</button>
-    <button class="btn" id="next" type="button">Suivant</button>
+    <button class="arrow" id="prev" type="button" aria-label="Carte précédente">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+    </button>
+    <span class="tip" id="tip">Touche la carte</span>
+    <button class="arrow" id="next" type="button" aria-label="Carte suivante">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>
+    </button>
   </div>
-
-  <div class="opts">
-    <label><input type="checkbox" id="auto" checked> Son automatique</label>
-    <label><input type="checkbox" id="showIpa" checked> Phonétique</label>
-    <button type="button" id="shuffle">Mélanger</button>
-  </div>
-
-  <div class="chips" id="chips" aria-label="Aller à une carte"></div>
-  <p class="note" id="note"></p>
 </main>
 
 <script>
 (function () {
-  /* ---------- drawings ---------- */
-  function c(h, key) { return h.indexOf(key) > -1 ? 'hl' : 'base'; }
-  function limb(x1, y1, x2, y2, w, cls) {
-    var col = cls === 'hl' ? 'var(--hl)' : 'var(--shape)';
-    return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="var(--line)" stroke-width="' + w + '" stroke-linecap="round"/>' +
-           '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + col + '" stroke-width="' + (w - 4) + '" stroke-linecap="round"/>';
-  }
-  function body(h) {
-    var s = '<svg viewBox="0 0 200 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">';
-    s += limb(82, 200, 80, 318, 28, c(h, 'legs'));
-    s += limb(118, 200, 120, 318, 28, c(h, 'legs'));
-    s += limb(58, 104, 38, 204, 22, c(h, 'arms'));
-    s += limb(142, 104, 162, 204, 22, c(h, 'arms'));
-    s += '<circle class="base" cx="36" cy="214" r="12"/><circle class="base" cx="164" cy="214" r="12"/>';
-    s += '<rect class="base" x="62" y="86" width="76" height="118" rx="26"/>';
-    s += '<rect class="' + c(h, 'neck') + '" x="90" y="66" width="20" height="26" rx="8"/>';
-    s += '<ellipse class="' + c(h, 'head') + '" cx="100" cy="40" rx="28" ry="32"/>';
-    if (h.indexOf('head') < 0) {
-      s += '<circle cx="90" cy="38" r="3" fill="var(--ink)"/><circle cx="110" cy="38" r="3" fill="var(--ink)"/>';
-      s += '<path class="ln" d="M90 54 Q100 62 110 54"/>';
+  var O = ' class="o"';
+  /* ---------- pictograms (viewBox 0 0 200 200, inner markup only) ---------- */
+  var D = {
+    pomme: function () {
+      return '<path' + O + ' fill="#e63946" d="M100 66 C70 44 32 66 38 112 C44 156 74 176 100 166 C126 176 156 156 162 112 C168 66 130 44 100 66 Z"/>' +
+        '<path' + O + ' fill="none" d="M100 66 Q100 46 112 32"/>' +
+        '<path' + O + ' fill="#58c25c" d="M106 50 C120 30 144 34 148 44 C136 58 116 60 106 50 Z"/>' +
+        '<path d="M58 100 Q58 84 70 76" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none" opacity=".6"/>';
+    },
+    banane: function () {
+      return '<path' + O + ' fill="#ffd23f" d="M52 64 C46 132 110 178 172 132 C182 124 176 110 164 114 C122 140 86 118 76 60 C72 46 54 50 52 64 Z"/>' +
+        '<path' + O + ' fill="#7a5230" d="M50 66 L56 40 L76 46 L74 64 Z"/>' +
+        '<circle cx="170" cy="124" r="7" fill="#7a5230"/>' +
+        '<path d="M82 108 Q100 134 140 132" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity=".55"/>';
+    },
+    orange: function () {
+      return '<circle' + O + ' cx="100" cy="112" r="62" fill="#ff9f1c"/>' +
+        '<path' + O + ' fill="#58c25c" d="M100 54 C110 34 136 32 142 42 C132 58 112 60 100 54 Z"/>' +
+        '<path d="M60 96 Q62 78 78 68" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none" opacity=".6"/>' +
+        '<g fill="#e07f00"><circle cx="86" cy="128" r="3.5"/><circle cx="116" cy="140" r="3.5"/><circle cx="130" cy="110" r="3.5"/><circle cx="100" cy="106" r="3.5"/><circle cx="76" cy="150" r="3.5"/></g>';
+    },
+    citron: function () {
+      return '<circle' + O + ' cx="26" cy="110" r="12" fill="#ffe74c"/><circle' + O + ' cx="174" cy="110" r="12" fill="#ffe74c"/>' +
+        '<ellipse cx="100" cy="110" rx="72" ry="52" fill="#ffe74c"/>' +
+        '<path' + O + ' fill="none" d="M30 100 C40 64 76 58 100 58 C132 58 166 76 170 100 M30 120 C40 150 76 162 100 162 C132 162 164 146 170 122"/>' +
+        '<path' + O + ' fill="#58c25c" d="M104 60 C114 38 140 36 148 46 C140 62 118 66 104 60 Z"/>' +
+        '<path d="M58 96 Q66 82 82 78" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none" opacity=".7"/>';
+    },
+    fraise: function () {
+      var seeds = [[70,92],[100,88],[130,92],[84,112],[116,112],[62,118],[138,118],[100,132],[78,140],[122,140],[100,154]].map(function (p) {
+        return '<ellipse cx="' + p[0] + '" cy="' + p[1] + '" rx="3.5" ry="5.5" fill="#ffe27a"/>';
+      }).join('');
+      return '<path' + O + ' fill="#ef233c" d="M100 172 C58 142 34 108 40 82 C46 58 76 52 100 70 C124 52 154 58 160 82 C166 108 142 142 100 172 Z"/>' + seeds +
+        '<path' + O + ' fill="#58c25c" d="M100 72 L76 56 L92 62 L84 40 L100 54 L116 40 L108 62 L124 56 Z"/>';
+    },
+    raisin: function () {
+      var pts = [[55,86],[85,86],[115,86],[145,86],[70,110],[100,110],[130,110],[85,134],[115,134],[100,158]];
+      var o = pts.map(function (p) { return '<circle' + O + ' cx="' + p[0] + '" cy="' + p[1] + '" r="17" fill="#7b2cbf"/>'; }).join('');
+      var f = pts.map(function (p) { return '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="14.5" fill="#7b2cbf"/>'; }).join('');
+      var h = pts.map(function (p) { return '<circle cx="' + (p[0] - 5) + '" cy="' + (p[1] - 5) + '" r="3.6" fill="#fff" opacity=".6"/>'; }).join('');
+      return o + f + h +
+        '<path' + O + ' fill="none" d="M100 66 Q106 42 124 32"/>' +
+        '<path' + O + ' fill="#58c25c" d="M106 52 C120 32 148 36 152 46 C138 60 118 62 106 52 Z"/>';
+    },
+    poire: function () {
+      return '<path' + O + ' fill="#a7d84a" d="M100 44 C84 44 80 68 74 86 C54 102 42 128 54 152 C66 176 134 176 146 152 C158 128 146 102 126 86 C120 68 116 44 100 44 Z"/>' +
+        '<path' + O + ' fill="none" d="M100 44 Q102 28 114 20"/>' +
+        '<path' + O + ' fill="#58c25c" d="M106 34 C120 16 146 20 150 30 C138 44 118 46 106 34 Z"/>' +
+        '<path d="M70 128 Q68 112 80 102" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none" opacity=".6"/>';
+    },
+    cerise: function () {
+      return '<path' + O + ' fill="none" d="M66 118 Q86 64 112 36"/><path' + O + ' fill="none" d="M138 122 Q128 70 112 36"/>' +
+        '<circle' + O + ' cx="64" cy="142" r="30" fill="#d00000"/><circle' + O + ' cx="138" cy="146" r="30" fill="#d00000"/>' +
+        '<path' + O + ' fill="#58c25c" d="M112 36 C126 22 148 26 152 36 C142 50 122 48 112 36 Z"/>' +
+        '<path d="M50 136 Q52 124 62 120 M124 140 Q126 128 136 124" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity=".6"/>';
+    },
+    pasteque: function () {
+      return '<g transform="translate(0 14)">' +
+        '<path' + O + ' fill="#2d9a4a" d="M24 78 A76 76 0 0 0 176 78 Z"/>' +
+        '<path d="M38 78 A62 62 0 0 0 162 78 Z" fill="#f4f7e0"/>' +
+        '<path d="M44 78 A56 56 0 0 0 156 78 Z" fill="#ff4d6d"/>' +
+        '<path' + O + ' fill="none" d="M24 78 L176 78"/>' +
+        '<g fill="#2b2140"><ellipse cx="78" cy="98" rx="5" ry="8" transform="rotate(-20 78 98)"/><ellipse cx="100" cy="112" rx="5" ry="8"/><ellipse cx="122" cy="98" rx="5" ry="8" transform="rotate(20 122 98)"/><ellipse cx="62" cy="86" rx="4.5" ry="7" transform="rotate(-30 62 86)"/><ellipse cx="138" cy="86" rx="4.5" ry="7" transform="rotate(30 138 86)"/></g></g>';
+    },
+    ananas: function () {
+      var lines = '';
+      for (var i = -2; i <= 6; i++) {
+        lines += '<path d="M' + (40 + i * 16) + ' 70 L' + (110 + i * 16) + ' 190" stroke="#c97a00" stroke-width="3" fill="none"/>';
+        lines += '<path d="M' + (160 - i * 16) + ' 70 L' + (90 - i * 16) + ' 190" stroke="#c97a00" stroke-width="3" fill="none"/>';
+      }
+      return '<defs><clipPath id="pc"><ellipse cx="100" cy="132" rx="42" ry="54"/></clipPath></defs>' +
+        '<path' + O + ' fill="#2fa84f" d="M100 86 L72 34 L92 58 L88 20 L100 52 L112 20 L108 58 L128 34 Z"/>' +
+        '<path' + O + ' fill="#58c25c" d="M100 90 L58 54 L88 68 Z"/><path' + O + ' fill="#58c25c" d="M100 90 L142 54 L112 68 Z"/>' +
+        '<ellipse cx="100" cy="132" rx="42" ry="54" fill="#ffb703"/><g clip-path="url(#pc)">' + lines + '</g>' +
+        '<ellipse' + O + ' cx="100" cy="132" rx="42" ry="54" fill="none"/>';
+    },
+    carotte: function () {
+      return '<g transform="rotate(24 100 100)">' +
+        '<path' + O + ' fill="#58c25c" d="M100 52 C92 34 86 22 84 8 C100 20 104 36 100 52 Z"/>' +
+        '<path' + O + ' fill="#58c25c" d="M100 52 C102 30 110 18 118 6 C124 26 114 42 100 52 Z"/>' +
+        '<path' + O + ' fill="#58c25c" d="M98 54 C82 42 66 40 58 40 C68 54 84 62 98 54 Z"/>' +
+        '<path' + O + ' fill="#fb8500" d="M70 56 Q100 40 130 56 Q124 108 100 186 Q76 108 70 56 Z"/>' +
+        '<path d="M80 78 L98 80 M104 104 L120 106 M88 128 L102 130" stroke="#c75f00" stroke-width="5" stroke-linecap="round" fill="none"/></g>';
+    },
+    tomate: function () {
+      return '<ellipse' + O + ' cx="100" cy="114" rx="66" ry="56" fill="#e63946"/>' +
+        '<path' + O + ' fill="#58c25c" d="M100 66 L110 82 L130 74 L120 92 L138 100 L118 104 L112 120 L100 106 L88 120 L82 104 L62 100 L80 92 L70 74 L90 82 Z"/>' +
+        '<path d="M52 108 Q54 90 68 82" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none" opacity=".55"/>';
+    },
+    patate: function () {
+      return '<path' + O + ' fill="#c69c6d" d="M40 104 C34 64 80 46 114 56 C152 48 174 80 166 114 C160 150 120 168 86 160 C54 156 44 132 40 104 Z"/>' +
+        '<g fill="#8a6a45"><ellipse cx="78" cy="88" rx="5" ry="3.5"/><ellipse cx="122" cy="82" rx="5" ry="3.5"/><ellipse cx="138" cy="118" rx="5" ry="3.5"/><ellipse cx="96" cy="124" rx="5" ry="3.5"/><ellipse cx="62" cy="122" rx="5" ry="3.5"/></g>' +
+        '<path d="M60 84 Q64 74 76 70" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity=".45"/>';
+    },
+    oignon: function () {
+      return '<path' + O + ' fill="none" d="M100 172 L96 188 M92 170 L84 186 M108 170 L116 186"/>' +
+        '<path' + O + ' fill="#d6a3f5" d="M100 36 C108 62 152 70 158 116 C162 152 132 172 100 172 C68 172 38 152 42 116 C48 70 92 62 100 36 Z"/>' +
+        '<path d="M100 46 C86 80 70 108 74 166 M100 46 C114 80 130 108 126 166 M100 60 C100 100 100 140 100 168" stroke="#a85fd1" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+        '<path d="M58 112 Q60 96 72 88" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none" opacity=".6"/>';
+    },
+    salade: function () {
+      var cs = [[66,112,38],[134,112,38],[100,82,40],[100,130,42],[74,150,28],[126,150,28]];
+      var o = cs.map(function (c) { return '<circle' + O + ' cx="' + c[0] + '" cy="' + c[1] + '" r="' + c[2] + '" fill="#7bd389"/>'; }).join('');
+      var f = cs.map(function (c) { return '<circle cx="' + c[0] + '" cy="' + c[1] + '" r="' + (c[2] - 2.5) + '" fill="#7bd389"/>'; }).join('');
+      return o + f + '<path d="M100 166 L100 74 M100 136 L66 100 M100 136 L134 100 M100 156 L78 134 M100 156 L122 134" stroke="#3fa356" stroke-width="5" stroke-linecap="round" fill="none"/>';
+    },
+    concombre: function () {
+      return '<g transform="rotate(-24 100 100)"><rect' + O + ' x="24" y="72" width="152" height="56" rx="28" fill="#3fa34d"/>' +
+        '<path d="M50 88 L72 88 M92 112 L116 112 M130 90 L152 90 M60 114 L72 114" stroke="#8fe08f" stroke-width="6" stroke-linecap="round"/>' +
+        '<circle cx="164" cy="100" r="6" fill="#2a7a35"/></g>';
+    },
+    poivron: function () {
+      return '<path' + O + ' fill="#40b97a" d="M58 74 C36 96 42 150 66 166 C80 176 92 166 100 160 C108 166 120 176 134 166 C158 150 164 96 142 74 C128 62 114 70 100 76 C86 70 72 62 58 74 Z"/>' +
+        '<path d="M100 84 C92 110 92 140 100 156 M72 90 C64 112 68 140 78 156 M128 90 C136 112 132 140 122 156" stroke="#2c9a62" stroke-width="4" stroke-linecap="round" fill="none"/>' +
+        '<path' + O + ' fill="#2f8f55" d="M92 76 L92 52 Q100 40 114 46 L110 62 L108 76 Z"/>' +
+        '<path d="M56 104 Q56 88 68 80" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none" opacity=".55"/>';
+    },
+    aubergine: function () {
+      return '<path' + O + ' fill="#6a2c91" d="M128 56 C170 62 172 104 146 138 C122 168 82 180 54 162 C36 150 50 126 78 108 C100 92 106 62 128 56 Z"/>' +
+        '<path' + O + ' fill="#2f8f55" d="M116 54 C122 36 146 30 160 40 C154 56 140 64 124 66 C118 64 114 60 116 54 Z"/>' +
+        '<path' + O + ' fill="#2f8f55" d="M120 52 L112 30 L128 38 Z"/>' +
+        '<path d="M96 138 Q112 122 122 104" stroke="#fff" stroke-width="7" stroke-linecap="round" fill="none" opacity=".4"/>';
+    },
+    brocoli: function () {
+      var cs = [[62,98,28],[100,76,32],[138,98,28],[84,112,28],[116,112,28]];
+      var o = cs.map(function (c) { return '<circle' + O + ' cx="' + c[0] + '" cy="' + c[1] + '" r="' + c[2] + '" fill="#2d9a4a"/>'; }).join('');
+      var f = cs.map(function (c) { return '<circle cx="' + c[0] + '" cy="' + c[1] + '" r="' + (c[2] - 2.5) + '" fill="#2d9a4a"/>'; }).join('');
+      var d = '<g fill="#1f7a37"><circle cx="70" cy="92" r="4"/><circle cx="104" cy="70" r="4"/><circle cx="136" cy="96" r="4"/><circle cx="96" cy="108" r="4"/><circle cx="122" cy="116" r="4"/></g>';
+      return '<path' + O + ' fill="#a8dd9a" d="M84 176 L90 118 L110 118 L116 176 Z"/>' + o + f + d;
+    },
+    mais: function () {
+      var k = '';
+      for (var r = 0; r < 7; r++) for (var c = 0; c < 4; c++) {
+        k += '<rect x="' + (78 + c * 11 - (r === 0 || r === 6 ? -3 : 0)) + '" y="' + (38 + r * 13) + '" width="9" height="10" rx="3" fill="#ffe36e" opacity=".95"/>';
+      }
+      return '<path' + O + ' fill="#58c25c" d="M100 184 C54 168 46 112 60 66 C76 106 94 134 100 184 Z"/>' +
+        '<path' + O + ' fill="#58c25c" d="M100 184 C146 168 154 112 140 66 C124 106 106 134 100 184 Z"/>' +
+        '<path' + O + ' fill="#ffcb05" d="M100 24 C132 24 142 84 130 146 L70 146 C58 84 68 24 100 24 Z"/>' + k +
+        '<path' + O + ' fill="#7bd389" d="M100 184 C84 160 82 140 90 124 L110 124 C118 140 116 160 100 184 Z"/>';
     }
-    s += '<ellipse class="' + c(h, 'belly') + '" cx="100" cy="150" rx="26" ry="28"/>';
-    s += '<circle class="' + c(h, 'shoulders') + '" cx="64" cy="98" r="14"/><circle class="' + c(h, 'shoulders') + '" cx="136" cy="98" r="14"/>';
-    s += '<circle class="' + c(h, 'knees') + '" cx="81" cy="262" r="15"/><circle class="' + c(h, 'knees') + '" cx="119" cy="262" r="15"/>';
-    s += '<ellipse class="' + c(h, 'feet') + '" cx="72" cy="338" rx="22" ry="10"/><ellipse class="' + c(h, 'feet') + '" cx="128" cy="338" rx="22" ry="10"/>';
-    return s + '</svg>';
-  }
-  function back() {
-    var s = '<svg viewBox="0 0 200 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">';
-    s += limb(82, 200, 80, 318, 28, 'base') + limb(118, 200, 120, 318, 28, 'base');
-    s += limb(58, 104, 38, 204, 22, 'base') + limb(142, 104, 162, 204, 22, 'base');
-    s += '<circle class="base" cx="36" cy="214" r="12"/><circle class="base" cx="164" cy="214" r="12"/>';
-    s += '<rect class="base" x="90" y="66" width="20" height="26" rx="8"/>';
-    s += '<ellipse class="hair" cx="100" cy="40" rx="28" ry="32"/>';
-    s += '<rect class="hl" x="62" y="86" width="76" height="118" rx="26"/>';
-    s += '<path d="M100 96 L100 196" stroke="var(--hl-ink)" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 8" fill="none"/>';
-    s += '<ellipse class="base" cx="72" cy="338" rx="22" ry="10"/><ellipse class="base" cx="128" cy="338" rx="22" ry="10"/>';
-    s += '<text class="tag" x="100" y="356" text-anchor="middle">vue de dos</text>';
-    return s + '</svg>';
-  }
-  function face(h) {
-    var s = '<svg viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">';
-    s += '<ellipse class="' + c(h, 'ear') + '" cx="38" cy="124" rx="11" ry="19"/>';
-    s += '<ellipse class="base" cx="162" cy="124" rx="11" ry="19"/>';
-    s += '<ellipse class="base" cx="100" cy="124" rx="58" ry="78"/>';
-    s += '<path class="hair' + (h.indexOf('hair') > -1 ? ' hl' : '') + '" d="M40 112 C32 44 76 22 100 22 C124 22 168 44 160 112 C142 78 124 68 100 68 C76 68 58 78 40 112 Z"/>';
-    s += '<path class="ln" d="M64 96 Q76 90 88 96 M112 96 Q124 90 136 96"/>';
-    var e = h.indexOf('eyes') > -1 ? ' hl' : '';
-    s += '<ellipse class="eye' + e + '" cx="76" cy="116" rx="13" ry="9"/><ellipse class="eye' + e + '" cx="124" cy="116" rx="13" ry="9"/>';
-    s += '<circle class="pupil" cx="76" cy="116" r="4.5"/><circle class="pupil" cx="124" cy="116" r="4.5"/>';
-    s += '<path class="' + (h.indexOf('nose') > -1 ? 'hl' : 'base') + '" d="M100 124 Q90 152 84 158 Q100 170 116 158 Q110 152 100 124 Z"/>';
-    s += '<path class="lip' + (h.indexOf('mouth') > -1 ? ' hl' : '') + '" d="M74 184 Q100 174 126 184 Q100 210 74 184 Z"/>';
-    return s + '</svg>';
-  }
-  function hand(h) {
-    var f = function (k) { return c(h, k); };
-    var s = '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">';
-    s += limb(66, 140, 30, 100, 24, f('thumb'));
-    s += '<rect class="' + f('index') + '" x="62" y="32" width="19" height="84" rx="9.5"/>';
-    s += '<rect class="' + f('middle') + '" x="84" y="22" width="19" height="94" rx="9.5"/>';
-    s += '<rect class="' + f('ring') + '" x="106" y="32" width="19" height="84" rx="9.5"/>';
-    s += '<rect class="' + f('pinky') + '" x="128" y="52" width="17" height="64" rx="8.5"/>';
-    s += '<rect class="' + f('palm') + '" x="58" y="96" width="92" height="86" rx="26"/>';
-    return s + '</svg>';
-  }
-  var ALL_HAND = 'thumb index middle ring pinky palm';
+  };
+  function mini(fn, x, y, s) { return '<g transform="translate(' + x + ' ' + y + ') scale(' + s + ')">' + fn() + '</g>'; }
+  D.fruit = function () {
+    return mini(D.banane, 8, 4, .62) + mini(D.pomme, 84, 0, .62) + mini(D.fraise, 24, 88, .62) + mini(D.orange, 92, 82, .62);
+  };
+  D.legume = function () {
+    return mini(D.carotte, 4, 8, .62) + mini(D.tomate, 88, 0, .62) + mini(D.brocoli, 20, 88, .62) + mini(D.poivron, 92, 84, .6);
+  };
 
-  /* ---------- cards ---------- */
+  /* ---------- cards: [pictogram, article, word, say, colour, text colour] ---------- */
+  var L = '#ffffff', Dk = '#2b2140';
   var CARDS = [
-    { art: 'la',  word: 'tête',     ipa: '/tɛt/',      say: 'la tête',     svg: function () { return body('head'); } },
-    { art: 'les', word: 'cheveux',  ipa: '/ʃ(ə).vø/',  say: 'les cheveux', svg: function () { return face('hair'); } },
-    { art: 'les', word: 'yeux',     ipa: '/jø/',       say: 'les yeux',    svg: function () { return face('eyes'); } },
-    { art: 'le',  word: 'nez',      ipa: '/ne/',       say: 'le nez',      svg: function () { return face('nose'); } },
-    { art: 'la',  word: 'bouche',   ipa: '/buʃ/',      say: 'la bouche',   svg: function () { return face('mouth'); } },
-    { art: 'l’',  word: 'oreille',  ipa: '/ɔ.ʁɛj/',    say: 'l’oreille',   svg: function () { return face('ear'); } },
-    { art: 'le',  word: 'cou',      ipa: '/ku/',       say: 'le cou',      svg: function () { return body('neck'); } },
-    { art: 'l’',  word: 'épaule',   ipa: '/e.pol/',    say: 'l’épaule',    svg: function () { return body('shoulders'); } },
-    { art: 'le',  word: 'bras',     ipa: '/bʁa/',      say: 'le bras',     svg: function () { return body('arms'); } },
-    { art: 'la',  word: 'main',     ipa: '/mɛ̃/',       say: 'la main',     svg: function () { return hand(ALL_HAND); } },
-    { art: 'le',  word: 'doigt',    ipa: '/dwa/',      say: 'le doigt',    svg: function () { return hand('index'); } },
-    { art: 'le',  word: 'ventre',   ipa: '/vɑ̃tʁ/',     say: 'le ventre',   svg: function () { return body('belly'); } },
-    { art: 'le',  word: 'dos',      ipa: '/do/',       say: 'le dos',      svg: function () { return back(); } },
-    { art: 'la',  word: 'jambe',    ipa: '/ʒɑ̃b/',      say: 'la jambe',    svg: function () { return body('legs'); } },
-    { art: 'le',  word: 'genou',    ipa: '/ʒ(ə).nu/',  say: 'le genou',    svg: function () { return body('knees'); } },
-    { art: 'le',  word: 'pied',     ipa: '/pje/',      say: 'le pied',     svg: function () { return body('feet'); } }
+    ['fruit',     'le',  'fruit',         'le fruit',        '#ef476f', L],
+    ['pomme',     'la',  'pomme',         'la pomme',        '#e63946', L],
+    ['banane',    'la',  'banane',        'la banane',       '#ffd23f', Dk],
+    ['orange',    'l’',  'orange',        'l’orange',        '#ff9f1c', Dk],
+    ['citron',    'le',  'citron',        'le citron',       '#ffe74c', Dk],
+    ['fraise',    'la',  'fraise',        'la fraise',       '#ef233c', L],
+    ['raisin',    'le',  'raisin',        'le raisin',       '#7b2cbf', L],
+    ['poire',     'la',  'poire',         'la poire',        '#8ac926', Dk],
+    ['cerise',    'la',  'cerise',        'la cerise',       '#c1121f', L],
+    ['pasteque',  'la',  'pastèque',      'la pastèque',     '#e8365d', L],
+    ['ananas',    'l’',  'ananas',        'l’ananas',        '#ffb703', Dk],
+    ['legume',    'le',  'légume',        'le légume',       '#118ab2', L],
+    ['carotte',   'la',  'carotte',       'la carotte',      '#fb8500', Dk],
+    ['tomate',    'la',  'tomate',        'la tomate',       '#d62828', L],
+    ['patate',    'la',  'pomme de terre','la pomme de terre','#a47148', L],
+    ['oignon',    'l’',  'oignon',        'l’oignon',        '#9d4edd', L],
+    ['salade',    'la',  'salade',        'la salade',       '#2a9d6f', L],
+    ['concombre', 'le',  'concombre',     'le concombre',    '#2d9a4a', L],
+    ['poivron',   'le',  'poivron',       'le poivron',      '#40916c', L],
+    ['aubergine', 'l’',  'aubergine',     'l’aubergine',     '#5a189a', L],
+    ['brocoli',   'le',  'brocoli',       'le brocoli',      '#2d6a4f', L],
+    ['mais',      'le',  'maïs',          'le maïs',         '#ffcb05', Dk]
   ];
 
-  var order = CARDS.map(function (_, i) { return i; });
   var pos = 0, flipped = false;
   var $ = function (id) { return document.getElementById(id); };
-  var card = $('card'), pic = $('pic'), wordEl = $('word'), ipaEl = $('ipa'), note = $('note');
+  var card = $('card'), pic = $('pic'), wordEl = $('word'), root = document.documentElement;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- sound ---------- */
@@ -260,44 +309,40 @@ svg .tag { font-family: var(--font-ui); font-size: 13px; fill: var(--muted); }
   function pickVoice() {
     if (!synth) return;
     var v = synth.getVoices() || [];
-    voice = v.filter(function (x) { return /^fr[-_]FR/i.test(x.lang); })[0] ||
-            v.filter(function (x) { return /^fr/i.test(x.lang); })[0] || null;
+    voice = v.filter(function (x) { return /^fr[-_]FR/i.test(x.lang); })[0] || v.filter(function (x) { return /^fr/i.test(x.lang); })[0] || null;
   }
   if (synth) { pickVoice(); if (synth.addEventListener) synth.addEventListener('voiceschanged', pickVoice); }
-  function speak(text, rate) {
+  function speak() {
     if (!synth || typeof SpeechSynthesisUtterance === 'undefined') return;
     try {
       synth.cancel();
-      var u = new SpeechSynthesisUtterance(text);
+      var u = new SpeechSynthesisUtterance(CARDS[pos][3]);
       u.lang = (voice && voice.lang) || 'fr-FR';
       if (voice) u.voice = voice;
-      u.rate = rate || 0.8;
+      u.rate = 0.8;
       synth.speak(u);
     } catch (e) {}
   }
-  function current() { return CARDS[order[pos]]; }
 
   /* ---------- render ---------- */
   function setBack() {
-    var d = current();
-    wordEl.innerHTML = '<span class="art">' + d.art + (d.art.slice(-1) === '’' ? '' : ' ') + '</span>' + d.word;
-    ipaEl.textContent = d.ipa;
+    var d = CARDS[pos];
+    wordEl.innerHTML = '<span class="art">' + d[1] + (d[1].slice(-1) === '’' ? '' : ' ') + '</span>' + d[2];
   }
   function render(keepBack) {
-    var d = current();
-    pic.innerHTML = d.svg();
-    pic.style.cssText = 'display:flex;justify-content:center;width:100%;flex:1;min-height:0';
-    var svg = pic.firstChild; if (svg) { svg.style.height = '100%'; svg.style.maxHeight = '100%'; }
+    var d = CARDS[pos];
+    root.style.setProperty('--c', d[4]);
+    root.style.setProperty('--c-ink', d[5]);
+    pic.innerHTML = '<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' + D[d[0]]() + '</svg>';
     $('count').textContent = (pos + 1) + ' / ' + CARDS.length;
-    var chips = document.querySelectorAll('.chip');
-    for (var i = 0; i < chips.length; i++) chips[i].setAttribute('aria-current', i === pos ? 'true' : 'false');
-    if (keepBack) setBack(); else setTimeout(setBack, reduce ? 0 : 320);
+    $('fill').style.width = ((pos + 1) / CARDS.length * 100) + '%';
+    if (keepBack) setBack(); else setTimeout(setBack, reduce ? 0 : 340);
   }
-  function setFlipped(f, withSound) {
+  function setFlipped(f, sound) {
     flipped = f;
     card.classList.toggle('flipped', f);
-    card.setAttribute('aria-label', f ? 'Retourner la carte (image)' : 'Retourner la carte (mot)');
-    if (f && withSound && $('auto').checked) speak(current().say, 0.8);
+    $('tip').textContent = f ? 'Écoute et répète' : 'Touche la carte';
+    if (f && sound) speak();
     if (!f && synth) { try { synth.cancel(); } catch (e) {} }
   }
   function go(n) {
@@ -307,41 +352,16 @@ svg .tag { font-family: var(--font-ui); font-size: 13px; fill: var(--muted); }
     render(!was);
   }
 
-  /* ---------- events ---------- */
   card.addEventListener('click', function () { setFlipped(!flipped, true); });
-  function onBtn(el, fn) {
-    el.addEventListener('click', function (e) { e.stopPropagation(); fn(); });
-    el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); fn(); } });
-  }
-  onBtn($('again'), function () { speak(current().say, 0.8); });
-  onBtn($('slow'), function () { speak(current().say, 0.45); });
+  var say = $('say');
+  say.addEventListener('click', function (e) { e.stopPropagation(); speak(); });
+  say.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); speak(); } });
   $('next').addEventListener('click', function () { go(pos + 1); });
   $('prev').addEventListener('click', function () { go(pos - 1); });
-  $('showIpa').addEventListener('change', function () { ipaEl.hidden = !this.checked; });
-  $('shuffle').addEventListener('click', function () {
-    for (var i = order.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = order[i]; order[i] = order[j]; order[j] = t; }
-    go(0);
-  });
   document.addEventListener('keydown', function (e) {
-    if (e.target && /INPUT|BUTTON/.test(e.target.tagName) && e.key === ' ') return;
     if (e.key === 'ArrowRight') go(pos + 1);
     else if (e.key === 'ArrowLeft') go(pos - 1);
   });
-
-  var chipsEl = $('chips');
-  CARDS.forEach(function (_, i) {
-    var b = document.createElement('button');
-    b.type = 'button'; b.className = 'chip'; b.textContent = i + 1; b.id = 'chip' + i;
-    b.setAttribute('aria-label', 'Carte ' + (i + 1));
-    b.addEventListener('click', function () { go(i); });
-    chipsEl.appendChild(b);
-  });
-
-  if (!synth || typeof SpeechSynthesisUtterance === 'undefined') {
-    note.textContent = 'Le son n’est pas disponible sur cet appareil ou ce navigateur. Essaie Chrome, Edge ou Safari.';
-  } else {
-    note.textContent = 'Le son est lu par la voix française de ton appareil. Active le volume.';
-  }
   render(true);
 })();
 </script>
